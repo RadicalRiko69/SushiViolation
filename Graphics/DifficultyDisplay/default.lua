@@ -29,16 +29,6 @@ function GetCurrentStepsIndex(pn)
 	return -1;
 end;
 
---What's the point of this when we're playing Pump?
---[[local difficulties = {
-	diff1 = "Beginner",
-	diff2 = "Easy",
-	diff3 = "Medium",
-	diff4 = "Hard",
-	diff5 = "Challenge",
-	diff6 = "Edit",
-};]]
-
 
 t[#t+1] = Def.ActorFrame{
 	CurrentSongChangedMessageCommand=cmd(playcommand,"Refresh");

@@ -8,4 +8,11 @@ t[#t+1] = Def.ActorFrame {
 	};
 };
 
+t[#t+1] = Def.ActorFrame {
+	InitCommand=function(self)
+		--Reset the vars, player options, etc here.
+		ResetGame();
+	end;
+  };
+
 return t

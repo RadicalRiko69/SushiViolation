@@ -30,7 +30,7 @@ function GameOverOrContinue()
 	if THEME:GetMetric("ScreenContinue", "ContinueEnabled") then
 		return "ScreenContinue"
 	else
-		return "ScreenInit"
+		return "ScreenGameOver"
 	end
 end
 
@@ -131,12 +131,12 @@ Branch = {
 		if GAMESTATE:IsEventMode() then
 			return SelectMusicOrCourse()
 		elseif STATSMAN:GetCurStageStats():AllFailed() then
-			return "ScreenInit"
+			return "ScreenGameOver"
 		elseif GAMESTATE:GetSmallestNumStagesLeftForAnyHumanPlayer() == 0 then
 			if not GAMESTATE:IsCourseMode() then
-				return "ScreenInit"
+				return "ScreenGameOver"
 			else
-				return "ScreenInit"
+				return "ScreenGameOver"
 			end
 		else
 			return SelectMusicOrCourse()
@@ -237,7 +237,7 @@ Branch = {
 	end,
 	AfterContinue = function()
 		if GAMESTATE:GetNumPlayersEnabled() == 0 then
-			return "ScreenInit"
+			return "ScreenDeath"
 		end
 
 		if STATSMAN:GetStagesPlayed() == 0 then
