@@ -506,6 +506,14 @@ args[#args+1]= LoadActor("giant bar (doubleres)") .. {
 	end
 }
 
+args[#args+1]= LoadFont("Infinity 24px") .. {
+	Name= "fader", Text=profile:GetDisplayName();
+	InitCommand=cmd(x,SCREEN_CENTER_X-160;y,SCREEN_CENTER_Y+183;zoomy,0;zoomx,0.75;maxwidth,195;ztest,true);
+	OnCommand=cmd(sleep,1;linear,0.5;zoomy,0.75);
+	OffCommand=cmd(linear,0.5;zoomy,0);
+}
+
+
 args[#args+1]= number_entry:create_actors()
 		
 return Def.ActorFrame(args)

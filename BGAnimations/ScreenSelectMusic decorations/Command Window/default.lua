@@ -3,8 +3,7 @@ local t = Def.ActorFrame{
     LoadActor(THEME:GetPathS("CommandMenu","Move"))..{
         --PreviousGroupMessageCommand=cmd(play);
         --NextGroupMessageCommand=cmd(play);
-        OptionsListOpenedMessageCommand=cmd(play);
-        OptionsListClosedMessageCommand=cmd(play);
+        --OptionsListClosedMessageCommand=cmd(play);
         OptionsListRightMessageCommand=cmd(play);
         OptionsListLeftMessageCommand=cmd(play);
         OptionsListQuickChangeMessageCommand=cmd(play);
@@ -21,8 +20,9 @@ local t = Def.ActorFrame{
 				SCREENMAN:GetTopScreen():OpenOptionsList(params.PlayerNumber)
 			end
 		end;
-        OptionsListPopMessageCommand=cmd(play);
-        OptionsListPushMessageCommand=cmd(play);
+		OptionsListOpenedMessageCommand=cmd(play);
+        --OptionsListPopMessageCommand=cmd(play);
+        --OptionsListPushMessageCommand=cmd(play);
     };
 };
 if THEME:GetMetric("ScreenSelectMusic","UseOptionsList") then
@@ -80,18 +80,21 @@ if THEME:GetMetric("ScreenSelectMusic","UseOptionsList") then
 					self:stoptweening():decelerate(0.3):diffusealpha(0);
 				end;
 			end;
-			LoadFont("venacti/_venacti 26px bold diffuse")..{	--Texto "OPTION LIST"
+			LoadFont("Infinity 24px")..{	--Texto "OPTION LIST"
 				Text="Command Window";
-				InitCommand=cmd(draworder,999;y,_screen.cy-180;vertalign,bottom;diffusebottomedge,Color("HoloBlue"));
+				InitCommand=cmd(draworder,999;y,_screen.cy-150;x,offset*-150;zoom,0.85;vertalign,bottom;diffusebottomedge,Color("HoloBlue"));
 			};
-			
+			LoadFont("Infinity 24px")..{	--Texto "OPTION LIST"
+				Text="Info";
+				InitCommand=cmd(draworder,999;y,_screen.cy+100;x,offset*-150;zoom,0.85;vertalign,bottom;diffusebottomedge,Color("HoloBlue"));
+			};
 			LoadActor("oplist")..{
-				InitCommand=cmd(vertalign,top;addx,-300*offset;zoom,0.675);
+				InitCommand=cmd(vertalign,top;x,offset*-150;zoom,0.675;diffusealpha,0.95);
 			};
 			
 			LoadFont("Common Normal")..{
 				--Text="Hello World!";
-				InitCommand=cmd(draworder,999;y,_screen.cy-170;vertalign,top;zoom,.5;wrapwidthpixels,350);
+				InitCommand=cmd(draworder,999;y,_screen.cy+120;x,offset*-150;vertalign,top;zoom,.5;wrapwidthpixels,350);
 				OptionsListOpenedMessageCommand=function(self,params)
 					if params.Player == pn then
 						currentOpList = "SongMenu"
@@ -108,7 +111,7 @@ if THEME:GetMetric("ScreenSelectMusic","UseOptionsList") then
 								local itemName = string.gsub(THEME:GetMetric("ScreenOptionsMaster",currentOpList..","..params.Selection+1):split(";")[1],"name,","")
 								self:settext(THEME:GetString("OptionExplanations",itemName))
 							else
-								self:settext("Exit.");
+								self:settext("Exit the command window.");
 							end;
 						elseif currentOpList == "NoteSkins" then
 							local curRow;
@@ -208,55 +211,6 @@ if THEME:GetMetric("ScreenSelectMusic","UseOptionsList") then
 					end;
 				end;
 			};
-			--For the combo judgement only
-			Def.Sprite{
-				InitCommand=cmd(y,SCREEN_CENTER_Y-116;draworder,999;zoom,.8);
-				OptionsMenuChangedMessageCommand=function(self,params)
-					if params.Player == pn then
-						if params.Menu == "JudgmentType" then
-							if ActiveModifiers[pname(pn)]["JudgmentGraphic"] ~= "None" then
-								self:Load(THEME:GetPathG("Judgment", ActiveModifiers[pname(pn)]["JudgmentGraphic"])):SetAllStateDelays(1);
-							end;
-							self:stoptweening():visible(true)--[[:diffusealpha(0):linear(.2):diffusealpha(1)]];
-						else
-							self:visible(false)
-						end;
-					end;
-				end;
-				AdjustCommand=function(self,params)
-					if params.Player == pn and currentOpList == "JudgmentType" then
-						if params.Selection == #OptionRowJudgmentGraphic().Choices then
-							self:Load(THEME:GetPathG("Judgment", ActiveModifiers[pname(pn)]["JudgmentGraphic"])):SetAllStateDelays(1);
-						elseif OptionRowJudgmentGraphic().judgementFileNames[params.Selection+1] ~= "None" then
-							self:Load(THEME:GetPathG("Judgment", OptionRowJudgmentGraphic().judgementFileNames[params.Selection+1])):SetAllStateDelays(1);
-						else
-							--SCREENMAN:SystemMessage(params.Selection..", "..#OptionRowJudgmentGraphic().Choices)
-							self:Load(nil);
-						end;
-					end;
-				end;
-				OptionsListRightMessageCommand=function(self, params)
-					self:playcommand("Adjust",params);
-				end;
-				OptionsListLeftMessageCommand=function(self,params)
-					self:playcommand("Adjust", params);
-				end;
-			
-			};
-			--Using an ActorFrame here causes draworder issues.
-			LoadActor(THEME:GetPathB("ScreenSelectMusic","decorations/mods display/optionIcon"))..{
-				InitCommand=cmd(draworder,100;zoomy,0.34;zoomx,0.425;diffusealpha,.75;y,_screen.cy-130;draworder,998);
-				OptionsMenuChangedMessageCommand=function(self,params)
-					--SCREENMAN:SystemMessage("MenuChanged: Menu="..params.Menu);
-					if params.Player == pn then
-						if params.Menu == "NoteSkins" then
-							self:stoptweening():linear(.3):diffusealpha(1);
-						else
-							self:diffusealpha(0);
-						end;
-					end;
-				end;
-			};
 	
 			Def.Sprite{
 				InitCommand=cmd(x,1;y,_screen.cy-130;draworder,999);
@@ -271,15 +225,15 @@ if THEME:GetMetric("ScreenSelectMusic","UseOptionsList") then
 					end;
 				end;
 				OnCommand=function(self)
-					local arrow = "UpLeft";
-					local name = "Tap note";
+					local arrow = "Down";
+					local name = "Tap Note";
 					local highlightedNoteSkin = CurrentNoteSkin(pn);
 					local path-- 
 					if not path then
 						if highlightedNoteSkin == "delta" then
 							name = "Ready Receptor";
 						elseif highlightedNoteSkin == "delta-note" or string.ends(highlightedNoteSkin, "rhythm") then
-							arrow = "_UpLeft";
+							arrow = "_Down";
 						end
 						path = NOTESKIN:GetPathForNoteSkin(arrow, name, CurrentNoteSkin(pn));
 					end
@@ -287,27 +241,27 @@ if THEME:GetMetric("ScreenSelectMusic","UseOptionsList") then
 					self:Load(path);
 					self:croptop(0);
 					self:cropright(0);
-					self:zoom(0.35);
+					self:zoom(0.5);
 				end;
 				AdjustCommand=function(self,params)
 					if params.Player == pn then
 						if params.Selection < OPTIONSLIST_NUMNOTESKINS then
 							local highlightedNoteSkin = OPTIONSLIST_NOTESKINS[params.Selection+1];
-							local arrow = "UpLeft";
-							local name = "Tap note";
+							local arrow = "Down";
+							local name = "Tap Note";
 							local path-- = NOTESKIN:GetPathForNoteSkin("", "__RIO_THUMB", highlightedNoteSkin);
 							if not path then
 								if highlightedNoteSkin == "delta" then
 									name = "Ready Receptor";
 								elseif highlightedNoteSkin == "delta-note" or string.ends(highlightedNoteSkin, "rhythm") then
-									arrow = "_UpLeft";
+									arrow = "_Down";
 								end
 								path = NOTESKIN:GetPathForNoteSkin(arrow, name, highlightedNoteSkin);
 							end
 							self:Load(path);
 							self:croptop(0);
 							self:cropright(0);
-							self:zoom(0.35);
+							self:zoom(0.5);
 						else
 							self:playcommand("On");
 						end;

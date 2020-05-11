@@ -113,6 +113,9 @@ t[#t+1] = Def.ActorFrame{
 		InitCommand=cmd(zoom,0.675;diffusealpha,0;x,SCREEN_CENTER_X-200;y,SCREEN_CENTER_Y-55;sleep,0.2;linear,0.5;diffusealpha,1);
 		OffCommand=cmd(sleep,0.05;linear,0.1;diffusealpha,0);
 	};
+		PlayerJoinedMessageCommand=function(self)
+			SCREENMAN:SetNewScreen("ScreenSelectProfile");
+		end;
 
 	LoadActor("scorebar")..{
 		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+175;zoom,0.635;diffusealpha,0);
@@ -154,6 +157,23 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 	};
 end;
 
+--Banner Frame
+t[#t+1] = Def.ActorFrame {
+	LoadActor("gloss")..{
+		InitCommand=cmd(zoom,0.296;diffusealpha,0;x,SCREEN_CENTER_X-200;y,SCREEN_CENTER_Y;sleep,0.2;linear,0.5;diffusealpha,1; diffuseshift; effectoffset,1; effectperiod, 3; effectcolor1, 0,0,0,0; effectcolor2, 1,1,1,1);
+		OffCommand=cmd(sleep,0.05;linear,0.1;diffusealpha,0);
+	};
+	LoadActor("frame")..{
+		InitCommand=cmd(zoom,0.296;diffusealpha,0;x,SCREEN_CENTER_X-200;y,SCREEN_CENTER_Y;sleep,0.2;linear,0.5;diffusealpha,1);
+		OffCommand=cmd(sleep,0.05;linear,0.1;diffusealpha,0);
+	};
+	LoadActor("addition")..{
+		InitCommand=cmd(zoom,0.296;diffusealpha,0;x,SCREEN_CENTER_X-200;y,SCREEN_CENTER_Y;sleep,0.2;linear,0.5;diffusealpha,1; diffuseshift; effectoffset,1; effectperiod, 3; effectcolor1, 0,0,0,0; effectcolor2, 1,1,1,1);
+		OffCommand=cmd(sleep,0.05;linear,0.1;diffusealpha,0);
+	};
+		
+};
+
 t[#t+1] = Def.ActorFrame{
 
 	LoadActor(THEME:GetPathG("","DifficultyDisplay"))..{
@@ -168,29 +188,33 @@ t[#t+1] = Def.ActorFrame{
 --PREVIEW BOX
 t[#t+1] = LoadActor("songPreview");
 
+--Command Window
+t[#t+1] = LoadActor("code_detector");
+t[#t+1] = LoadActor("Command Window");
+
 --[[step credit
 t[#t+1] = LoadActor("stepsInfo")--]]
 
--- Sounds
-t[#t+1] = Def.ActorFrame {
-	LoadActor(THEME:GetPathS("_switch","up")) .. {
-		SelectMenuOpenedMessageCommand=cmd(stop;play);
+t[#t+1] = Def.ActorFrame{
+
+	LoadActor(THEME:GetPathS("","open up"))..{
+		SongChosenMessageCommand=cmd(play);
+		StepsChosenMessageCommand=cmd(play);
 	};
+	LoadActor(THEME:GetPathS("","swish disc"))..{
+		SongUnchosenMessageCommand=cmd(play);
+	};
+	LoadActor(THEME:GetPathS("","clash"))..{
+		OffCommand=cmd(play);
+	};
+
+};
+
+-- Front Stuff
+t[#t+1] = Def.ActorFrame {
 	
 	LoadActor("paw")..{
 		InitCommand=cmd(x,SCREEN_CENTER_X+980;y,SCREEN_CENTER_Y-210;zoom,0.5;sleep,0.25;decelerate,1;x,SCREEN_CENTER_X+205;sleep,0.75;decelerate,1;addx,980;sleep,3;diffusealpha,0);
-	};
-	LoadActor("gloss")..{
-		InitCommand=cmd(zoom,0.296;diffusealpha,0;x,SCREEN_CENTER_X-200;y,SCREEN_CENTER_Y;sleep,0.2;linear,0.5;diffusealpha,1; diffuseshift; effectoffset,1; effectperiod, 3; effectcolor1, 0,0,0,0; effectcolor2, 1,1,1,1);
-		OffCommand=cmd(sleep,0.05;linear,0.1;diffusealpha,0);
-	};
-	LoadActor("frame")..{
-		InitCommand=cmd(zoom,0.296;diffusealpha,0;x,SCREEN_CENTER_X-200;y,SCREEN_CENTER_Y;sleep,0.2;linear,0.5;diffusealpha,1);
-		OffCommand=cmd(sleep,0.05;linear,0.1;diffusealpha,0);
-	};
-	LoadActor("addition")..{
-		InitCommand=cmd(zoom,0.296;diffusealpha,0;x,SCREEN_CENTER_X-200;y,SCREEN_CENTER_Y;sleep,0.2;linear,0.5;diffusealpha,1; diffuseshift; effectoffset,1; effectperiod, 3; effectcolor1, 0,0,0,0; effectcolor2, 1,1,1,1);
-		OffCommand=cmd(sleep,0.05;linear,0.1;diffusealpha,0);
 	};
 	LoadActor("slide")..{
 		InitCommand=cmd(zoom,0.4446;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-500;decelerate,0.7;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-130.5);
@@ -212,8 +236,5 @@ t[#t+1] = Def.ActorFrame {
 
 --t[#t+1] = LoadActor("ScreenSelectGroup overlay");
 
-t[#t+1] = LoadActor("Command Window")..{
-	InitCommand=cmd(draworder,100);	
-};
 
 return t

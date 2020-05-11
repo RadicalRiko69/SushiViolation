@@ -7,15 +7,21 @@ t[#t+1] = Def.ActorFrame {
 	};
 	LoadActor("lazy") .. {
 		InitCommand=cmd(zoom,1;linear,10.5;zoom,10);
-	};
+	};	
+};
+t[#t+1] = Def.ActorFrame {
+	InitCommand=cmd(FullScreen);
 	Def.Quad{
-		InitCommand=cmd(zoomto,100000000000000,10000000000000000;addx,-10000000;diffuse,color("1,0,0,0");blend,Blend.Multiply);
+		InitCommand=cmd(zoom,1;diffuse,color("1,0,0,0");blend,Blend.Multiply);
 		OnCommand=cmd(smooth,1;diffuse,color("0.75,0,0,0.75");decelerate,2;diffuse,color("0.15,0,0,1"));
 	};
 	Def.Quad{
-		InitCommand=cmd(zoomto,100000000000000,10000000000000000;addx,-10000000;diffuse,color("1,0,0,0");diffusealpha,0);
+		InitCommand=cmd(zoom,1;diffuse,color("1,0,0,0");diffusealpha,0);
 		OnCommand=cmd(finishtweening;diffusealpha,1;decelerate,2;diffuse,color("1,0,0,0"));
 	};
+};
+t[#t+1] = Def.ActorFrame {
+	InitCommand=cmd(Center);
 	LoadActor("big text") .. {
 		InitCommand=cmd(zoom,10;linear,1.5;zoom,0.35);
 	};
