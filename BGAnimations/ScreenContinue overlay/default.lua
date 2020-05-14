@@ -8,5 +8,11 @@ t[#t+1] = Def.ActorFrame {
 		OnCommand=cmd(skewx,-0.125;diffuse,color("#ffd400");shadowlength,2;shadowcolor,BoostColor(color("#ffd40077"),0.25));
 	};
 };
---
+
+t[#t+1] = Def.ActorFrame {
+	InitCommand=function(self)
+		Reset_PIU_Hearts();
+	end;
+  };
+
 return t

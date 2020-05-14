@@ -23,19 +23,27 @@ return Def.ActorFrame{
 			end;
 		};
 
+		--MODE DISPLAY
+		LoadFont("_russellsquare 40px")..{
+			InitCommand=cmd(uppercase,true;horizalign,right;diffusealpha,0;x,SCREEN_CENTER_X-110;y,SCREEN_CENTER_Y-55;zoom,0.3;sleep,0.25;decelerate,0.5;diffusealpha,1);
+			OffCommand=cmd(visible,false);
+			OnCommand=function(self)
+				local mode = GAMESTATE:GetCoinMode()
+				self:settext(THEME:GetString("CoinMode",GAMESTATE:GetCoinMode()));
+			end;
+		};
 		--Genre display
 		LoadFont("_russellsquare 40px")..{
-			InitCommand=cmd(diffusealpha,0;uppercase,true;x,SCREEN_CENTER_X-10;y,SCREEN_CENTER_Y+135;zoom,0.4);
+			InitCommand=cmd(diffusealpha,0;uppercase,true;x,SCREEN_CENTER_X-10;y,SCREEN_CENTER_Y+130;zoom,0.4);
 			OffCommand=cmd(decelerate,0.15;diffusealpha,0;visible,false);
 			SongChosenMessageCommand=cmd(decelerate,0.15;diffusealpha,1;visible,true);
 			SongUnchosenMessageCommand=cmd(decelerate,0.15;diffusealpha,0;visible,false);
 			CurrentSongChangedMessageCommand=function(self)
 				self:settext("GENRE:");
-				(cmd(finishtweening;zoomy,0;zoomx,0.5;decelerate,0.33;zoom,0.4)) (self)
 			end;
 		};
 		LoadFont("_russellsquare 40px")..{
-			InitCommand=cmd(diffusealpha,0;uppercase,true;x,SCREEN_CENTER_X-10;y,SCREEN_CENTER_Y+150;zoom,0.4);
+			InitCommand=cmd(diffusealpha,0;uppercase,true;x,SCREEN_CENTER_X-10;y,SCREEN_CENTER_Y+144;zoom,0.4;maxwidth,360);
 			OffCommand=cmd(decelerate,0.15;diffusealpha,0;visible,false);
 			SongChosenMessageCommand=cmd(decelerate,0.15;diffusealpha,1;visible,true);
 			SongUnchosenMessageCommand=cmd(decelerate,0.15;diffusealpha,0;visible,false);
@@ -45,24 +53,48 @@ return Def.ActorFrame{
 					genre = "???"
 				end
 				self:settext(genre);
-				(cmd(finishtweening;zoomy,0;zoomx,0.5;decelerate,0.33;zoom,0.4;maxwidth,360)) (self)
 			end;
 		};		
+
+		--LENGTH DISPLAY
+		LoadFont("_russellsquare 40px")..{
+			InitCommand=cmd(diffusealpha,0;uppercase,true;x,SCREEN_CENTER_X-10;y,SCREEN_CENTER_Y+167;zoom,0.4);
+			OffCommand=cmd(decelerate,0.15;diffusealpha,0;visible,false);
+			SongChosenMessageCommand=cmd(decelerate,0.15;diffusealpha,1;visible,true);
+			SongUnchosenMessageCommand=cmd(decelerate,0.15;diffusealpha,0;visible,false);
+			CurrentSongChangedMessageCommand=function(self)
+				self:settext("LENGTH:");
+			end;
+		};
 		
+		LoadFont("_russellsquare 40px")..{
+			InitCommand=cmd(diffusealpha,0;horizalign,left;x,SCREEN_CENTER_X-30;y,SCREEN_CENTER_Y+182;zoom,0.4;maxwidth,120);
+			OffCommand=cmd(decelerate,0.15;diffusealpha,0;visible,false);
+			SongChosenMessageCommand=cmd(decelerate,0.15;diffusealpha,1;visible,true);
+			SongUnchosenMessageCommand=cmd(decelerate,0.15;diffusealpha,0;visible,false);
+			CurrentSongChangedMessageCommand=function(self)
+			if GAMESTATE:GetCurrentSong() then
+				local length = GAMESTATE:GetCurrentSong():MusicLengthSeconds()
+				self:settext(SecondsToMMSS(length));
+			else
+				self:settext("N/A");
+			end;
+		end;
+		};	
+
 		--BPM DISPLAY
 		LoadFont("_russellsquare 40px")..{
-			InitCommand=cmd(diffusealpha,0;uppercase,true;x,SCREEN_CENTER_X-10;y,SCREEN_CENTER_Y+195;zoom,0.4);
+			InitCommand=cmd(diffusealpha,0;uppercase,true;x,SCREEN_CENTER_X-10;y,SCREEN_CENTER_Y+205;zoom,0.4);
 			OffCommand=cmd(decelerate,0.15;diffusealpha,0;visible,false);
 			SongChosenMessageCommand=cmd(decelerate,0.15;diffusealpha,1;visible,true);
 			SongUnchosenMessageCommand=cmd(decelerate,0.15;diffusealpha,0;visible,false);
 			CurrentSongChangedMessageCommand=function(self)
 				self:settext("BPM:");
-				(cmd(finishtweening;zoomy,0;zoomx,0.5;decelerate,0.33;zoom,0.4;)) (self)
 			end;
 		};
 		
 		LoadFont("_russellsquare 40px")..{
-			InitCommand=cmd(diffusealpha,0;uppercase,true;x,SCREEN_CENTER_X-10;y,SCREEN_CENTER_Y+210;zoom,0.4);
+			InitCommand=cmd(diffusealpha,0;uppercase,true;x,SCREEN_CENTER_X-10;y,SCREEN_CENTER_Y+220;zoom,0.4);
 			OffCommand=cmd(decelerate,0.15;diffusealpha,0;visible,false);
 			SongChosenMessageCommand=cmd(decelerate,0.15;diffusealpha,1;visible,true);
 			SongUnchosenMessageCommand=cmd(decelerate,0.15;diffusealpha,0;visible,false);
@@ -86,21 +118,23 @@ return Def.ActorFrame{
 						end;
 					end;
 					self:settext(speedvalue);
-					(cmd(finishtweening;zoomy,0;zoomx,0.5;decelerate,0.33;zoom,0.4)) (self)
 				else
-					self:stoptweening();self:linear(0.25);self:diffusealpha(0);
+					self:stoptweening();self:decelerate(0.15);self:diffusealpha(0);
 				end;
 			end;
 		};
 		
 		
-		--[[HEART
-		LoadActor("select music")..{
-		InitCommand=cmd(x,_screen.cx-105;y,_screen.cy+85;zoom,0.6;);
-		OnCommand=cmd(playcommand,"Refresh";);
-		CurrentSongChangedMessageCommand=cmd(finishtweening;diffusealpha,0;sleep,0.01;queuecommand,"Refresh";);
-		RefreshCommand=function(self)
-			(cmd(diffusealpha,0;sleep,0.3;y,_screen.cy+85;linear,0.3;diffusealpha,1;y,_screen.cy+75))(self);
-		end;
-		};--]]
+		--HEART
+		LoadActor(THEME:GetPathG("","heart"))..{
+			InitCommand=cmd(diffusealpha,0;x,SCREEN_CENTER_X-290;y,SCREEN_CENTER_Y-55;zoom,0.6;sleep,0.25;decelerate,0.5;diffusealpha,1);
+			OffCommand=cmd(decelerate,0.15;diffusealpha,0;visible,false);
+			};
+		LoadFont("_russellsquare 40px")..{
+			InitCommand=cmd(diffusealpha,0;x,SCREEN_CENTER_X-278;y,SCREEN_CENTER_Y-55;zoom,0.3;sleep,0.25;decelerate,0.5;diffusealpha,1);
+			OffCommand=cmd(decelerate,0.15;diffusealpha,0;visible,false);
+			CurrentSongChangedMessageCommand=function(self)
+				self:settext("x"..GetNumHeartsForSong());
+			end;
+		};
 };

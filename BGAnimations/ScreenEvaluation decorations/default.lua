@@ -2,7 +2,25 @@ local t = Def.ActorFrame{
 	InitCommand=cmd(hibernate,3);
 }
 
-
+--Calculate bonus hearts here
+local bonus = {PLAYER_1 = false, PLAYER_2 = false}
+if not GAMESTATE:IsEventMode() then
+	for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
+		--More dumb routine shit that shouldn't really be here anyway
+		if pn == "PlayerNumber_P3" or pn == "PlayerNumber_P4" then
+			break;
+		end;
+		RemoveHearts(pn, GetNumHeartsForSong());
+		if PREFSMAN:GetPreference("AllowExtraStage") and PlayerAchievedBonusHeart(pn) then
+			GiveBonusHeart(pn)
+			--After giving the bonus heart PlayerAchievedBonusHeart will return false, so we have to keep the result in memory
+			bonus[pn] = true;
+		end;
+		if GAMESTATE:GetNumStagesLeft(pn) <= 0 and NumHeartsLeft[pn] > 0 then
+			GAMESTATE:AddStageToPlayer(pn) --Hack to make sure SM5 doesn't think there are no stages left
+		end;
+	end;
+end;
 
 
 local function CDTitleUpdate(self)

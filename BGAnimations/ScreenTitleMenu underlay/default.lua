@@ -7,11 +7,8 @@ return Def.ActorFrame {
 		InitCommand=cmd(zoom,0.4;diffusealpha,0;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y+10);
 		OnCommand=cmd(sleep,2;linear,1;diffusealpha,1);
 		OffCommand=cmd(sleep,0.05;linear,0.1;diffusealpha,0);
+  };
+  LoadActor(THEME:GetPathG("","logo"))..{
+		InitCommand=cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,0.5;sleep,0.75;accelerate,0.5;diffusealpha,1;zoom,0.25;x,SCREEN_CENTER_X+160;y,SCREEN_CENTER_Y-190);
 	};
-    Def.Sprite{
-        Name= "sushi violation 2018", --main logo
-        OnCommand= cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,0.5;sleep,0.75;accelerate,0.5;diffusealpha,1;zoom,0.25;x,SCREEN_CENTER_X+160;y,SCREEN_CENTER_Y-190),
-        Texture= "SV2018 logo.png",
-      },
-    
 };

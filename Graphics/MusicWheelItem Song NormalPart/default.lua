@@ -22,9 +22,18 @@ return Def.ActorFrame{
 				local path = song:GetBannerPath();
 				if path then
 					self:Load(path)
+					--self:LoadFromCached("Jacket",path);
+				else
+					path = song:GetBannerPath();
+					if path then
+						self:Load(path)
+						--self:LoadFromCached("Banner",path);
+					else
+						self:Load(THEME:GetPathG("Common","fallback banner"))
+					end;
 				end;
 			else
-				self:Load(THEME:GetPathG("Common fallback", "banner")) --// load the fallback banner if we panic
+				self:Load(THEME:GetPathG("Common fallback","banner")) --// load the fallback banner if we panic
 			end;
 		end;
 	};

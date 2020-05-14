@@ -29,7 +29,7 @@ t[#t+1] = Def.ActorFrame {
 	Def.ActorFrame {
 		InitCommand=cmd(hide_if,hideFancyElements;);
 		LoadActor("_checkerboard") .. {
-			InitCommand=cmd(y,SCREEN_CENTER_Y-500;rotationy,-30;rotationz,180;rotationx,90/4*3.5;zoomto,SCREEN_WIDTH*4,SCREEN_HEIGHT*2;customtexturerect,0,0,SCREEN_WIDTH*4/256,SCREEN_HEIGHT*4/256);
+			InitCommand=cmd(y,SCREEN_CENTER_Y-750;rotationy,-30;rotationz,180;rotationx,90/4*3.5;zoomto,SCREEN_WIDTH*4,SCREEN_HEIGHT*2;customtexturerect,0,0,SCREEN_WIDTH*4/256,SCREEN_HEIGHT*4/256);
 			OnCommand=cmd(texcoordvelocity,0,-0.5;diffuse,color("#FFFFFF");fadetop,2);
 		};
 	};

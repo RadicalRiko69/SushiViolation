@@ -484,7 +484,7 @@ for i, item in ipairs(menu_items) do
 end
 
 local _height = (#menu_items) * 24
-args[#args+1]= LoadActor("main bar") .. {
+args[#args+1]= LoadActor(THEME:GetPathG("","main bar"))..{
 	Name= "fader", InitCommand= function(self)
 		fader= self
 		self:draworder(-20)

@@ -10,6 +10,7 @@ function ResetGame()
 	--not yet
 	--QUESTMODE:Reset();
 	PREFSMAN:SetPreference("AllowW1",'AllowW1_Never');
+	--PREFSMAN:SetPreference("MusicWheelUsesSections",'Never');
 	PREFSMAN:SetPreference("TimingWindowSecondsAttack",0.135000);
 	PREFSMAN:SetPreference("TimingWindowSecondsHold",0.350);
 	PREFSMAN:SetPreference("TimingWindowSecondsMine",0.070);
@@ -30,4 +31,7 @@ function ResetGame()
 	PREFSMAN:SetPreference("SuperMeterPercentChangeW3",6);
 	PREFSMAN:SetPreference("SuperMeterPercentChangeW4",2);
 	PREFSMAN:SetPreference("SuperMeterPercentChangeW5",-2);
+
+	--test
+	--SCREENMAN:SystemMessage("idk what im doin")
 end

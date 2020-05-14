@@ -6,8 +6,8 @@ local t = Def.ActorFrame{
 	};
     LoadActor("please wait" )..{
 		Name="idk",
-		OnCommand=cmd(zoom,0.35; x,SCREEN_CENTER_X-200;y,SCREEN_CENTER_Y; diffuseshift; effectoffset,1; effectperiod, 1; effectcolor1, 1,1,1,0; effectcolor2, 1,1,1,1;
-    diffusealpha,1;sleep,1.5;linear,0.25;diffusealpha,0)
+		OnCommand=cmd(zoom,0.3; x,SCREEN_CENTER_X-200;y,SCREEN_CENTER_Y; diffuseshift; effectoffset,1; effectperiod, 1; effectcolor1, 1,1,1,0; effectcolor2, 1,1,1,1;
+    diffusealpha,1;sleep,0.5;linear,0.25;diffusealpha,0)
 	},
 
 };

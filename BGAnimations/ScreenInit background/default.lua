@@ -12,6 +12,7 @@ t[#t+1] = Def.ActorFrame {
 	InitCommand=function(self)
 		--Reset the vars, player options, etc here.
 		ResetGame();
+		Reset_PIU_Hearts();
 	end;
   };
 

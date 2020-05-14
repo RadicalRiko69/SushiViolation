@@ -35,7 +35,8 @@ local sections = {
 		"The Doctor",
 		"Saki",
 		"Miso",
-		"Maddie H.",
+		"Maddie the Hectic",
+		"Sam Bee",
 	}},
 	{ "Music Origin", {
 		"DanceDanceRevolution",
@@ -78,11 +79,11 @@ local sections = {
 -- To add people or sections modify the above.
 
 local lineOn = cmd(zoom,0.7;horizalign,right)
-local sectionOn = cmd(diffuse,color("#9d00ff");strokecolor,color("#0031ff");horizalign,right;skex,-0.145)
+local sectionOn = cmd(diffuse,color("#9d00ff");strokecolor,color("#0031ff");horizalign,right;skewx,-0.145)
 local item_padding_start = 4;
 
 local creditScroller = Def.ActorScroller {
-	SecondsPerItem = 3.15;
+	SecondsPerItem = 3.25;
 	NumItemsToDraw = 40;	--dont disable this line
 	TransformFunction = function( self, offset, itemIndex, numItems)
 		self:y(30*offset)
@@ -119,10 +120,6 @@ return Def.ActorFrame{
 	creditScroller..{
 		InitCommand=cmd(x,SCREEN_RIGHT-20;y,SCREEN_BOTTOM-64),
 	},
-	LoadFont("Common normal")..{	--DEBUG: Animation time and Metric set time.
-		InitCommand=cmd(visible,DoDebug;xy,SCREEN_RIGHT,SCREEN_TOP;horizalign,right;vertalign,top;zoom,0.5;
-		settext,"Timer Seconds: "..(creditScroller.SecondsPerItem * (#creditScroller + item_padding_start) + 20));	--sumar solo los tiempos del ultimo actor
-	};
 --[[	LoadActor(THEME:GetPathB("ScreenWithMenuElements","background/_bg top"))..{
 		InitCommand=cmd(Center),
 	},--]]

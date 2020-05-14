@@ -47,7 +47,7 @@ function LoadProfileCustom(profile, dir, isEdit)
 				end
 			end
 			
-			--Custom profile icon handling
+			--[[Custom profile icon handling
 			--Check for icons inside the profile directory first (local profile, USB stick, whatever)
 			local profileIcon = getLocalProfileIcon(dir)
 			if profileIcon then
@@ -63,7 +63,7 @@ function LoadProfileCustom(profile, dir, isEdit)
 
 			-- don't destroy the RageFile until we've tried to load all custom options
 			-- and set them to the env table to make them accessible from anywhere in SM
-			f:destroy()
+			f:destroy()--]]
 		end
 	--Special handling for editing profiles from operator menu because neither P1 or P2 is joined.
 	else

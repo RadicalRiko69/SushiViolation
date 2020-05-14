@@ -41,16 +41,12 @@ return Def.ActorFrame {
         OnCommand= cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,0;diffusealpha,0;sleep,0.5;diffusealpha,1;linear,0.5;zoom,10;diffusealpha,0),
         Texture= "Explosion Glow (doubleres).png",
       },
-    Def.Sprite{
-        Name= "sushi violation 2018", --main logo
-        OnCommand= cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,10;diffusealpha,0;sleep,0.05;linear,0.5;diffusealpha,1;zoom,0.5),
-        Texture= "SV2018 logo.png",
-      },
-    Def.Sprite{
-        Name= "loglow", --this is the ghost part
-        OnCommand= cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,0.5;diffusealpha,0;sleep,0.5;diffusealpha,1;linear,1;zoom,0.8;diffusealpha,0),
-        Texture= "SV2018 logo.png",
-      },
+      LoadActor(THEME:GetPathG("","logo"))..{
+        OnCommand= cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,10;diffusealpha,0;sleep,0.05;linear,0.5;diffusealpha,1;zoom,0.5);
+      };
+      LoadActor(THEME:GetPathG("","logo"))..{
+        OnCommand= cmd(x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y;zoom,0.5;diffusealpha,0;sleep,0.5;diffusealpha,1;linear,1;zoom,0.8;diffusealpha,0);
+      };
       LoadActor(THEME:GetPathG("","press"))..{
         InitCommand=cmd(Center);
         OnCommand=cmd(zoom,0.45; addy,150; diffusealpha,0; diffuseshift; effectperiod, 2; effectcolor1, 1,1,1,1; effectcolor2, 1,1,1,0; sleep,1; diffusealpha,1;);

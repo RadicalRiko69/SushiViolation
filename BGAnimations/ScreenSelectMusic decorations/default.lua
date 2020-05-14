@@ -145,7 +145,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 		SongChosenMessageCommand=cmd(stoptweening;linear,.2;diffusealpha,1);
 		TwoPartConfirmCanceledMessageCommand=cmd(stoptweening;linear,.2;diffusealpha,0);
 		SongUnchosenMessageCommand=cmd(stoptweening;linear,.05;diffusealpha,0);
-		PlayerJoinedMessageCommand=cmd(visible,GAMESTATE:IsHumanPlayer(player));
+		--PlayerJoinedMessageCommand=cmd(visible,GAMESTATE:IsHumanPlayer(player));
 		OffCommand=cmd(stoptweening;linear,.05;diffusealpha,0);
 		
 		LoadActor("MachineScore", pn)..{
@@ -216,17 +216,17 @@ t[#t+1] = Def.ActorFrame {
 	LoadActor("paw")..{
 		InitCommand=cmd(x,SCREEN_CENTER_X+980;y,SCREEN_CENTER_Y-210;zoom,0.5;sleep,0.25;decelerate,1;x,SCREEN_CENTER_X+205;sleep,0.75;decelerate,1;addx,980;sleep,3;diffusealpha,0);
 	};
-	LoadActor("slide")..{
+	LoadActor(THEME:GetPathG("","slide"))..{
 		InitCommand=cmd(zoom,0.4446;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-500;decelerate,0.7;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-130.5);
 		OnCommand=cmd(diffuseshift; effectoffset,0.5; effectperiod, 2; effectcolor1, 0,0,0,0; effectcolor2, 1,1,1,1);
 		OffCommand=cmd(decelerate,1;addy,-200;sleep,1;diffusealpha,0);
 	};
 	LoadActor("choose a song")..{
-		InitCommand=cmd(zoom,0.4446;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-500;decelerate,0.7;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-130.5);
+		InitCommand=cmd(zoom,0.4446;draworder,999;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-500;decelerate,0.7;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-130.5);
 		OffCommand=cmd(decelerate,1;addy,-200;sleep,1;diffusealpha,0);
 	};
 	LoadActor("choose step level")..{
-		InitCommand=cmd(zoom,0.4446;diffusealpha,0;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-500;decelerate,0.7;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-130.5);
+		InitCommand=cmd(zoom,0.4446;draworder,999;diffusealpha,0;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-500;decelerate,0.7;x,SCREEN_CENTER_X;y,SCREEN_CENTER_Y-130.5);
 		SongChosenMessageCommand=cmd(linear,0.15;diffusealpha,1);
 		SongUnchosenMessageCommand=cmd(linear,0.15;diffusealpha,0);
 		OffCommand=cmd(decelerate,1;addy,-200;sleep,1;diffusealpha,0);
@@ -234,7 +234,6 @@ t[#t+1] = Def.ActorFrame {
 		
 };
 
---t[#t+1] = LoadActor("ScreenSelectGroup overlay");
 
 
 return t

@@ -212,8 +212,8 @@ if THEME:GetMetric("ScreenSelectMusic","UseOptionsList") then
 				end;
 			};
 	
-			Def.Sprite{
-				InitCommand=cmd(x,1;y,_screen.cy-130;draworder,999);
+			Def.ActorFrame{
+				InitCommand=cmd(x,offset*-150;;y,SCREEN_CENTER_Y-125;draworder,999;zoom,0.5);
 				OptionsMenuChangedMessageCommand=function(self,params)
 					if params.Player == pn then
 						if params.Menu == "NoteSkins" then
@@ -225,43 +225,18 @@ if THEME:GetMetric("ScreenSelectMusic","UseOptionsList") then
 					end;
 				end;
 				OnCommand=function(self)
-					local arrow = "Down";
-					local name = "Tap Note";
-					local highlightedNoteSkin = CurrentNoteSkin(pn);
-					local path-- 
-					if not path then
-						if highlightedNoteSkin == "delta" then
-							name = "Ready Receptor";
-						elseif highlightedNoteSkin == "delta-note" or string.ends(highlightedNoteSkin, "rhythm") then
-							arrow = "_Down";
-						end
-						path = NOTESKIN:GetPathForNoteSkin(arrow, name, CurrentNoteSkin(pn));
-					end
+					highlightedNoteSkin = CurrentNoteSkin(pn);
+					self:RemoveAllChildren()
+					self:AddChildFromPath(THEME:GetPathB("ScreenSelectMusic","decorations/Noteskin.lua"))
 					
-					self:Load(path);
-					self:croptop(0);
-					self:cropright(0);
-					self:zoom(0.5);
 				end;
 				AdjustCommand=function(self,params)
-					if params.Player == pn then
+					if params.Player == pn and currentOpList == "NoteSkins" then
 						if params.Selection < OPTIONSLIST_NUMNOTESKINS then
-							local highlightedNoteSkin = OPTIONSLIST_NOTESKINS[params.Selection+1];
-							local arrow = "Down";
-							local name = "Tap Note";
-							local path-- = NOTESKIN:GetPathForNoteSkin("", "__RIO_THUMB", highlightedNoteSkin);
-							if not path then
-								if highlightedNoteSkin == "delta" then
-									name = "Ready Receptor";
-								elseif highlightedNoteSkin == "delta-note" or string.ends(highlightedNoteSkin, "rhythm") then
-									arrow = "_Down";
-								end
-								path = NOTESKIN:GetPathForNoteSkin(arrow, name, highlightedNoteSkin);
-							end
-							self:Load(path);
-							self:croptop(0);
-							self:cropright(0);
-							self:zoom(0.5);
+							--This is a global var, it's used in Noteskin.lua.
+							highlightedNoteSkin = OPTIONSLIST_NOTESKINS[params.Selection+1];
+							self:RemoveAllChildren()
+							self:AddChildFromPath(THEME:GetPathB("ScreenSelectMusic","decorations/Noteskin.lua"))
 						else
 							self:playcommand("On");
 						end;

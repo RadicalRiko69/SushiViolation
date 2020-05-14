@@ -554,8 +554,14 @@ LoadFont("_arial Bold 20px") .. {
 
 };
 
+for n=1,2 do 
 
+t[#t+1] = LoadActor(THEME:GetPathG("","demo"))..{
+	InitCommand=cmd(y,SCREEN_BOTTOM-20;x,THEME:GetMetric("ScreenGameplay","PlayerP"..n.."TwoPlayersTwoSidesX");zoom,0.45);
+	OnCommand=cmd(visible,GAMESTATE:IsDemonstration());
+};
 
+end
 
 return t;
 

@@ -13,7 +13,7 @@ local SongTypeToHearts = {
 	fullsong = 4,
 	musictrain = 6
 }
-MAX_SECONDS_FOR_SHORTCUT = 95
+MAX_SECONDS_FOR_SHORTCUT = 70
 
 local function SongTypeTransform(_, data)
 	return SongTypeToHearts[string.lower(data)]
