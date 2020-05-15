@@ -14,6 +14,8 @@ end
 
 --This defines the custom player options. PlayerDefaults is initialized from resetGame() in utils
 PlayerDefaults = {
+	DetailedPrecision = false,
+	JudgmentType = "Normal",
 	ScreenFilter = 0,
 }
 
@@ -113,6 +115,46 @@ function OptionRowScreenFilter()
 						--If selected value in the list is the 5th it would be 100%
 						--Substract 1 because lua is 1-indexed, so 4*25 -> 100.
 						ActiveModifiers[pName]["ScreenFilter"] = (i-1)*25;
+						found = true
+					end
+				end
+			end
+		end,
+	};
+	setmetatable(t, t)
+	return t
+end
+
+function OptionRowJudgmentType()
+	local judgementNames = { "Normal", "Classic"}
+	local t = {
+		Name="JudgmentType",
+		LayoutType = "ShowAllInRow",
+		SelectType = "SelectOne",
+		OneChoiceForAllPlayers = false,
+		ExportOnChange = false,
+		Choices = judgementNames,
+		LoadSelections = function(self, list, pn)
+			local pName = ToEnumShortString(pn)
+			local found = false;
+			for i=1,#list do
+				if judgementNames[i] == ActiveModifiers[pName]["JudgmentType"] then
+					list[i] = true;
+					found = true;
+				end;
+			end;
+			if not found then
+				list[1] = true;
+				assert(found, "Should have defaulted to Normal judgement, but none was found")
+			end;
+		end,
+		SaveSelections = function(self, list, pn)
+			local pName = ToEnumShortString(pn)
+			local found = false
+			for i=1,#list do
+				if not found then
+					if list[i] == true then
+						ActiveModifiers[pName]["JudgmentType"] = judgementNames[i];
 						found = true
 					end
 				end

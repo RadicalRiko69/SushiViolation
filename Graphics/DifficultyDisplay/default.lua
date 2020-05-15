@@ -36,8 +36,7 @@ t[#t+1] = Def.ActorFrame{
 			self:stoptweening();
 			local song = GAMESTATE:GetCurrentSong();
 			if song then
-				stepsArray = song:GetAllSteps();
-				table.sort(stepsArray, SortCharts)
+				stepsArray = SongUtil.GetPlayableSteps(song);
 			else
 				stepsArray = nil;
 			end;
@@ -91,7 +90,7 @@ for i=1,12 do
 				if stepsArray then
 					local j;
 					--TODO: Fix it so it can account for over 24 charts.
-					if GetCurrentStepsIndex(PLAYER_1) > 12 or GetCurrentStepsIndex(PLAYER_2) > 12 then
+					if GetCurrentStepsIndex(PLAYER_1,stepsArray) > 12 or GetCurrentStepsIndex(PLAYER_2,stepsArray) > 12 then
 						j = i+12;
 					else
 						j = i;
@@ -115,6 +114,8 @@ for i=1,12 do
 							self:setstate(5);
 						elseif steps:GetStepsType() == "StepsType_Dance_Routine" then
 							self:setstate(4);
+						elseif steps:GetStepsType() == "StepsType_Dance_Threepanel" then
+							self:setstate(1);
 						else
 							self:setstate(3);
 						end;
@@ -134,58 +135,39 @@ for i=1,12 do
 			PreviousSongMessageCommand=cmd(playcommand,"Refresh");
 			RefreshCommand=function(self)
 				self:stoptweening();
-
 				if stepsArray then
 					local j;
 					--TODO: Fix it so it can account for over 24 charts.
-					if GetCurrentStepsIndex(PLAYER_1) > 12 or GetCurrentStepsIndex(PLAYER_2) > 12 then
+					if GetCurrentStepsIndex(PLAYER_1,stepsArray) > 12 or GetCurrentStepsIndex(PLAYER_2,stepsArray) > 12 then
 						j = i+12;
 					else
 						j = i;
 					end;
 					if stepsArray[j] then
-    						self:diffusealpha(1);
-    									local steps = stepsArray[j];
-    														if steps:GetMeter() == 99 then
-    																    self:settext("??");
-    															elseif steps:GetMeter() == 100 then
-    																    self:settext("X");
-																elseif steps:GetMeter() == 200 then
-    																    self:settext("XX");
-																elseif steps:GetMeter() == 300 then
-    																    self:settext("XXX");
-																elseif steps:GetMeter() == 2222 then
-    																    self:settext("X2");
-																elseif steps:GetMeter() == 3333 then
-    																    self:settext("X3");
-																elseif steps:GetMeter() == 4444 then
-    																    self:settext("X4");
-																		--THIS IS FOR SINGLE DIGIT VALUES
-																elseif steps:GetMeter() == 1 then
-    																    self:settext("01");
-																elseif steps:GetMeter() == 2 then
-    																    self:settext("02");
-																elseif steps:GetMeter() == 3 then
-    																    self:settext("03");
-																elseif steps:GetMeter() == 4 then
-    																    self:settext("04");
-																elseif steps:GetMeter() == 5 then
-    																    self:settext("05");
-																elseif steps:GetMeter() == 6 then
-    																    self:settext("06");
-																elseif steps:GetMeter() == 7 then
-    																    self:settext("07");
-																elseif steps:GetMeter() == 8 then
-    																    self:settext("08");
-																elseif steps:GetMeter() == 9 then
-    																    self:settext("09");		
-												else
-    									   			 self:settext(steps:GetMeter());
-    											end
-										else
-    										self:diffusealpha(0.3);
-    										self:settext("  ");
-								end
+						self:diffusealpha(1);
+						local steps = stepsArray[j];
+						if steps:GetMeter() == 99 then
+							self:settext("??");
+						elseif steps:GetMeter() == 100 then
+							    self:settext("X");
+						elseif steps:GetMeter() == 200 then
+							    self:settext("XX");
+						elseif steps:GetMeter() == 300 then
+							    self:settext("XXX");
+						elseif steps:GetMeter() == 2222 then
+							    self:settext("X2");
+						elseif steps:GetMeter() == 3333 then
+							    self:settext("X3");
+						elseif steps:GetMeter() == 4444 then
+						    self:settext("X4");
+					    else
+							--THIS IS FOR SINGLE DIGIT VALUES
+							self:settextf("%02d",steps:GetMeter());
+						end
+					else
+						self:diffusealpha(0.3);
+						self:settext("  ");
+					end
 				end
 			end
 
@@ -209,7 +191,7 @@ for pn in ivalues(GAMESTATE:GetHumanPlayers()) do
 		--I know this looks moronic, but I don't think there's any other way to do it...
 		SetCommand=function(self)
 			if stepsArray then
-				local index = GetCurrentStepsIndex(pn);
+				local index = GetCurrentStepsIndex(pn,stepsArray);
 				if index > 12 then
 					index = index%12;
 				end;

@@ -141,11 +141,11 @@ local function inputs(event)
 	if SCREENMAN:get_input_redirected(pn) then 
 		if button == "Center" or button == "Start" then
 			GoToNextScreen()
-		elseif button == "DownLeft" or button == "Left" then
+		elseif button == "MenuLeft" or button == "Left" then
 			scroller:scroll_by_amount(-1);
 			SOUND:PlayOnce(THEME:GetPathS("MusicWheel", "change"), true);
 			MESSAGEMAN:Broadcast("PreviousGroup");
-		elseif button == "DownRight" or button == "Right" then
+		elseif button == "MenuRight" or button == "Right" then
 			scroller:scroll_by_amount(1);
 			SOUND:PlayOnce(THEME:GetPathS("MusicWheel", "change"), true);
 			MESSAGEMAN:Broadcast("NextGroup");
